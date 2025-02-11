@@ -6,6 +6,7 @@ package mazeconnect
 import (
 	"errors"
 	"image/color"
+	"net"
 	"net/rpc"
 )
 
@@ -37,13 +38,14 @@ const (
 type MazeConnection struct {
 	mode      ConnectMode
 	rpcclient *rpc.Client
+	udpconn   net.Conn // TODO add checks to mke sure we've connected
 }
 
 func (mc *MazeConnection) Init(mode ConnectMode) (err error) {
 	err = nil
 
 	// validate mode
-	if mode != M_simulator {
+	if mode != M_simulator && mode != M_hardware {
 		return errors.New("invalid mode: only M_simulator implemented currently")
 	}
 	mc.mode = mode
@@ -52,6 +54,8 @@ func (mc *MazeConnection) Init(mode ConnectMode) (err error) {
 	switch mc.mode {
 	case M_simulator:
 		err = mc.sim_init()
+	case M_hardware:
+		err = mc.hw_init()
 	default:
 		err = errors.New("cannot initialize connection in requested mode")
 	}
@@ -95,6 +99,8 @@ func (mc *MazeConnection) StepForward(agentid int) (err error) {
 	switch mc.mode {
 	case M_simulator:
 		err = mc.sim_stepforward(agentid)
+	case M_hardware:
+		err = mc.hw_stepforward()
 	default:
 		err = errors.New("cannot step forward in this mode")
 	}
