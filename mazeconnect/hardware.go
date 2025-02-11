@@ -34,3 +34,20 @@ func (mc *MazeConnection) hw_stepforward() (err error) {
 	log.Printf("Received: %v\n", data)
 	return
 }
+
+func (mc *MazeConnection) hw_observewalls(agentid int) (wallstate []int, err error) {
+	wallstate = make([]int, 4)
+
+	_, err = mc.udpconn.Write([]byte("sw"))
+	if err != nil {
+		return
+	}
+
+	data, err := bufio.NewReader(mc.udpconn).ReadString('\n')
+	if err != nil {
+		return
+	}
+	log.Printf("Received: %v\n", data)
+
+	return
+}
