@@ -2,6 +2,7 @@ package mazeconnect
 
 import (
 	"bufio"
+	"errors"
 	"log"
 	"net"
 )
@@ -35,7 +36,7 @@ func (mc *MazeConnection) hw_stepforward() (err error) {
 	return
 }
 
-func (mc *MazeConnection) hw_observewalls(agentid int) (wallstate []int, err error) {
+func (mc *MazeConnection) hw_observewalls() (wallstate []int, err error) {
 	wallstate = make([]int, 4)
 
 	_, err = mc.udpconn.Write([]byte("sw"))
@@ -46,6 +47,17 @@ func (mc *MazeConnection) hw_observewalls(agentid int) (wallstate []int, err err
 	data, err := bufio.NewReader(mc.udpconn).ReadString('\n')
 	if err != nil {
 		return
+	}
+	if len(data) != 4 {
+		err = errors.New("arduino returned string of wrong length")
+		return
+	}
+	for i := 0; i < 4; i++ {
+		if data[i] == '1' {
+			wallstate[i] = 1
+		} else {
+			wallstate[i] = 0
+		}
 	}
 	log.Printf("Received: %v\n", data)
 

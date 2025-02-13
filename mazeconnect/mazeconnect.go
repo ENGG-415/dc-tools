@@ -80,7 +80,7 @@ func (mc *MazeConnection) ObserveWalls(agentid int) (wallstate []int, err error)
 	case M_simulator:
 		wallstate, err = mc.sim_observewalls(agentid)
 	case M_hardware:
-		wallstate, err = mc.hw_observewalls(0)
+		wallstate, err = mc.hw_observewalls()
 	default:
 		err = errors.New("cannot observe walls in this mode")
 	}
