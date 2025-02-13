@@ -2,7 +2,6 @@ package mazeconnect
 
 import (
 	"bufio"
-	"errors"
 	"log"
 	"net"
 )
@@ -48,10 +47,10 @@ func (mc *MazeConnection) hw_observewalls() (wallstate []int, err error) {
 	if err != nil {
 		return
 	}
-	if len(data) != 5 {
-		err = errors.New("arduino returned string of wrong length")
-		return
-	}
+	//if len(data) != 5 {
+	//	err = errors.New("arduino returned string of wrong length")
+	//	return
+	//}
 	for i := 0; i < 4; i++ {
 		if data[i] == '1' {
 			wallstate[i] = 1
