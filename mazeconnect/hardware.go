@@ -48,7 +48,7 @@ func (mc *MazeConnection) hw_observewalls() (wallstate []int, err error) {
 	if err != nil {
 		return
 	}
-	if len(data) != 4 {
+	if len(data) != 5 {
 		err = errors.New("arduino returned string of wrong length")
 		return
 	}
