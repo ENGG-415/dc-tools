@@ -8,6 +8,12 @@ import (
 
 var serverAddr = "192.168.88.225:2390" // TODO: make this dynamic
 
+func (mc *MazeConnection) SetAddr(newaddr string) (err error) {
+	serverAddr = newaddr
+	err = nil
+	return
+}
+
 // connect to maze simulator
 func (mc *MazeConnection) hw_init() (err error) {
 	udpnet, err := net.Dial("udp", serverAddr)
@@ -58,7 +64,7 @@ func (mc *MazeConnection) hw_observewalls() (wallstate []int, err error) {
 			wallstate[i] = 0
 		}
 	}
-	log.Printf("Received: %v\n", data)
+	log.Printf("Return string length: %v\n", len(data))
 
 	return
 }
