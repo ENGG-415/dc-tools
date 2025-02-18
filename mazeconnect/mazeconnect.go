@@ -113,6 +113,8 @@ func (mc *MazeConnection) TurnLeft(agentid int) (err error) {
 	switch mc.mode {
 	case M_simulator:
 		err = mc.sim_turnleft(agentid)
+	case M_hardware:
+		err = mc.hw_turnleft()
 	default:
 		err = errors.New("cannot turn left in this mode")
 	}
@@ -123,6 +125,8 @@ func (mc *MazeConnection) TurnRight(agentid int) (err error) {
 	switch mc.mode {
 	case M_simulator:
 		err = mc.sim_turnright(agentid)
+	case M_hardware:
+		err = mc.hw_turnright()
 	default:
 		err = errors.New("cannot turn right in this mode")
 	}

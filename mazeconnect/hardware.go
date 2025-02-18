@@ -16,6 +16,7 @@ func (mc *MazeConnection) SetAddr(newaddr string) (err error) {
 
 // connect to maze simulator
 func (mc *MazeConnection) hw_init() (err error) {
+
 	udpnet, err := net.Dial("udp", serverAddr)
 	if err != nil {
 		return
@@ -64,7 +65,35 @@ func (mc *MazeConnection) hw_observewalls() (wallstate []int, err error) {
 			wallstate[i] = 0
 		}
 	}
-	log.Printf("Return string length: %v\n", len(data))
+	//log.Printf("Return string length: %v\n", len(data))
 
+	return
+}
+
+func (mc *MazeConnection) hw_turnleft() (err error) {
+
+	_, err = mc.udpconn.Write([]byte("tl"))
+	if err != nil {
+		return
+	}
+
+	_, err = bufio.NewReader(mc.udpconn).ReadString('\n')
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (mc *MazeConnection) hw_turnright() (err error) {
+
+	_, err = mc.udpconn.Write([]byte("tr"))
+	if err != nil {
+		return
+	}
+
+	_, err = bufio.NewReader(mc.udpconn).ReadString('\n')
+	if err != nil {
+		return
+	}
 	return
 }
