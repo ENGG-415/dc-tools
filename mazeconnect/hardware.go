@@ -4,18 +4,36 @@ import (
 	"bufio"
 	"log"
 	"net"
+	"os"
 )
 
 var serverAddr = "192.168.88.225:2390" // TODO: make this dynamic
+var serverAddrOverride = false
 
 func (mc *MazeConnection) SetAddr(newaddr string) (err error) {
 	serverAddr = newaddr
+	serverAddrOverride = true
 	err = nil
 	return
 }
 
 // connect to maze simulator
 func (mc *MazeConnection) hw_init() (err error) {
+
+	// try to get robot ip address from local file
+	// TODO: make this an acutal configuration file (YAML, JSON, or similar)
+	if !serverAddrOverride {
+		file, err := os.Open("/etc/engg415-robot-ip.txt")
+		if err != nil {
+			log.Println("Couldn't open IP address file... using default.")
+		} else {
+			scanner := bufio.NewScanner(file)
+			scanner.Split(bufio.ScanLines)
+			scanner.Scan()
+			serverAddr = scanner.Text()
+			log.Println("Read server address from file: ", serverAddr)
+		}
+	}
 
 	udpnet, err := net.Dial("udp", serverAddr)
 	if err != nil {
@@ -34,11 +52,11 @@ func (mc *MazeConnection) hw_stepforward() (err error) {
 		return
 	}
 
-	data, err := bufio.NewReader(mc.udpconn).ReadString('\n')
+	_, err = bufio.NewReader(mc.udpconn).ReadString('\n')
 	if err != nil {
 		return
 	}
-	log.Printf("Received: %v\n", data)
+
 	return
 }
 
