@@ -142,3 +142,14 @@ func (mc *MazeConnection) AddPath(cellindices []int, color color.RGBA) (err erro
 	}
 	return
 }
+
+func (mc *MazeConnection) RetrieveDebugData() (debugstr string, err error) {
+	err = nil
+	switch mc.mode {
+	case M_hardware:
+		debugstr, err = mc.hw_retrievedebugdata()
+	default:
+		err = errors.New("no debug data to retrieve in this mode")
+	}
+	return
+}

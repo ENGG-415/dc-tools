@@ -115,3 +115,19 @@ func (mc *MazeConnection) hw_turnright() (err error) {
 	}
 	return
 }
+
+func (mc *MazeConnection) hw_retrievedebugdata() (debugstr string, err error) {
+	err = nil
+
+	_, err = mc.udpconn.Write([]byte("debug"))
+	if err != nil {
+		return
+	}
+
+	debugstr, err = bufio.NewReader(mc.udpconn).ReadString('\n')
+	if err != nil {
+		return
+	}
+
+	return
+}
