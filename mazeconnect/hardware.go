@@ -2,9 +2,11 @@ package mazeconnect
 
 import (
 	"bufio"
+	"errors"
 	"log"
 	"net"
 	"os"
+	"time"
 )
 
 var serverAddr = "192.168.88.225:2390" // TODO: make this dynamic
@@ -124,8 +126,16 @@ func (mc *MazeConnection) hw_retrievedebugdata() (debugstr string, err error) {
 		return
 	}
 
-	debugstr, err = bufio.NewReader(mc.udpconn).ReadString('\n')
-	if err != nil {
+	c := make(chan string)
+	go func() {
+		mystr, thiserr := bufio.NewReader(mc.udpconn).ReadString('\n')
+		err = thiserr
+		c <- mystr
+	}()
+	select {
+	case debugstr = <-c:
+	case <-time.After(10 * time.Second):
+		err = errors.New("hw_retrivedebugdata() timeout")
 		return
 	}
 
