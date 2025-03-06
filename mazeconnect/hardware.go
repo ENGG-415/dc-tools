@@ -54,8 +54,16 @@ func (mc *MazeConnection) hw_stepforward() (err error) {
 		return
 	}
 
-	_, err = bufio.NewReader(mc.udpconn).ReadString('\n')
-	if err != nil {
+	c := make(chan string)
+	go func() {
+		mystr, thiserr := bufio.NewReader(mc.udpconn).ReadString('\n')
+		err = thiserr
+		c <- mystr
+	}()
+	select {
+	case <-c:
+	case <-time.After(10 * time.Second):
+		err = errors.New("hw_stepforward() timeout")
 		return
 	}
 
@@ -70,10 +78,20 @@ func (mc *MazeConnection) hw_observewalls() (wallstate []int, err error) {
 		return
 	}
 
-	data, err := bufio.NewReader(mc.udpconn).ReadString('\n')
-	if err != nil {
+	c := make(chan string)
+	var data string
+	go func() {
+		mystr, thiserr := bufio.NewReader(mc.udpconn).ReadString('\n')
+		err = thiserr
+		c <- mystr
+	}()
+	select {
+	case data = <-c:
+	case <-time.After(10 * time.Second):
+		err = errors.New("hw_observewalls() timeout")
 		return
 	}
+
 	//if len(data) != 5 {
 	//	err = errors.New("arduino returned string of wrong length")
 	//	return
@@ -97,8 +115,16 @@ func (mc *MazeConnection) hw_turnleft() (err error) {
 		return
 	}
 
-	_, err = bufio.NewReader(mc.udpconn).ReadString('\n')
-	if err != nil {
+	c := make(chan string)
+	go func() {
+		mystr, thiserr := bufio.NewReader(mc.udpconn).ReadString('\n')
+		err = thiserr
+		c <- mystr
+	}()
+	select {
+	case <-c:
+	case <-time.After(10 * time.Second):
+		err = errors.New("hw_turnleft() timeout")
 		return
 	}
 	return
@@ -111,10 +137,19 @@ func (mc *MazeConnection) hw_turnright() (err error) {
 		return
 	}
 
-	_, err = bufio.NewReader(mc.udpconn).ReadString('\n')
-	if err != nil {
+	c := make(chan string)
+	go func() {
+		mystr, thiserr := bufio.NewReader(mc.udpconn).ReadString('\n')
+		err = thiserr
+		c <- mystr
+	}()
+	select {
+	case <-c:
+	case <-time.After(10 * time.Second):
+		err = errors.New("hw_turnright() timeout")
 		return
 	}
+
 	return
 }
 
