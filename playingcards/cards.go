@@ -36,18 +36,6 @@ type TestCard struct {
 	Suit int
 }
 
-// MyArgType is used for RPC argument passing.
-type MyArgType struct {
-	// X coordinate or first value
-	X int
-	// Y coordinate or second value
-	Y int
-	// ThisName is a string field
-	ThisName string
-	// ThisSuit is a card suit field
-	ThisSuit Suit
-}
-
 // [NumToCardChar] converts a numeric card value to its character representation.
 // Valid input values are 1-13, where:
 //   - 1 returns "A" (Ace)
