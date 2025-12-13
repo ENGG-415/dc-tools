@@ -50,28 +50,6 @@ import "github.com/ENGG-415/dc-tools/playingcards"
 // or other packages as needed
 ```
 
-## Project Structure
-
-```
-dc-tools/
-├── go.mod                    # Go module definition
-├── README.md                 # This file
-├── logconfig/
-│   └── logconfig.go
-├── mazeconnect/
-│   ├── hardware.go
-│   ├── mazeconnect.go
-│   └── simulator.go
-├── mazeio/
-│   ├── mazeio.go
-│   ├── mazeio_test.go
-│   └── mazeio_test.json
-└── playingcards/
-    ├── cards.go
-    ├── deck.go
-    └── doc.go
-```
-
 ## License
 
 This project is part of the ENGG-415 course at Dartmouth College.
