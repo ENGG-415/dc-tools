@@ -5,31 +5,58 @@ import (
 	"strconv"
 )
 
+// [Suit] represents the suit of a playing card.
 type Suit int
 
 const (
+	// Clubs suit
 	Clubs Suit = iota
+	// Diamonds suit
 	Diamonds
+	// Hearts suit
 	Hearts
+	// Spades suit
 	Spades
 )
 
-// values in Card need to be exported to use as argument in RPC
+// [Card] represents a single playing card.
+// Values in Card need to be exported to use as argument in RPC.
 type Card struct {
-	Val      int
+	// Val is the card value/rank (1=Ace, 2-10=number, 11=Jack, 12=Queen, 13=King)
+	Val int
+	// CardSuit is the suit of the card
 	CardSuit Suit
 }
 
+// [TestCard] is a test structure for card values.
 type TestCard struct {
-	Val, Suit int
+	// Val is the card value
+	Val int
+	// Suit is the suit as an integer
+	Suit int
 }
 
+// MyArgType is used for RPC argument passing.
 type MyArgType struct {
-	X, Y     int
+	// X coordinate or first value
+	X int
+	// Y coordinate or second value
+	Y int
+	// ThisName is a string field
 	ThisName string
+	// ThisSuit is a card suit field
 	ThisSuit Suit
 }
 
+// [NumToCardChar] converts a numeric card value to its character representation.
+// Valid input values are 1-13, where:
+//   - 1 returns "A" (Ace)
+//   - 2-10 return the numeric string
+//   - 11 returns "J" (Jack)
+//   - 12 returns "Q" (Queen)
+//   - 13 returns "K" (King)
+//
+// Invalid values will panic.
 func NumToCardChar(val int) string {
 	if val > 1 && val < 11 {
 		return strconv.Itoa(val)
@@ -50,6 +77,7 @@ func NumToCardChar(val int) string {
 	}
 }
 
+// [String] returns a string representation of the card.
 func (c Card) String() string {
 	var str string
 	str += NumToCardChar(c.Val)
