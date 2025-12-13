@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// [Suit] represents the suit of a playing card.
+// Suit represents the suit of a playing card.
 type Suit int
 
 const (
@@ -20,7 +20,7 @@ const (
 )
 
 // [Card] represents a single playing card.
-// Values in Card need to be exported to use as argument in RPC.
+// Values in [Card] need to be exported to use as argument in RPC.
 type Card struct {
 	// Val is the card value/rank (1=Ace, 2-10=number, 11=Jack, 12=Queen, 13=King)
 	Val int
@@ -28,15 +28,7 @@ type Card struct {
 	CardSuit Suit
 }
 
-// [TestCard] is a test structure for card values.
-type TestCard struct {
-	// Val is the card value
-	Val int
-	// Suit is the suit as an integer
-	Suit int
-}
-
-// [NumToCardChar] converts a numeric card value to its character representation.
+// NumToCardChar converts a numeric card value to its character representation.
 // Valid input values are 1-13, where:
 //   - 1 returns "A" (Ace)
 //   - 2-10 return the numeric string
@@ -65,7 +57,7 @@ func NumToCardChar(val int) string {
 	}
 }
 
-// [String] returns a string representation of the card.
+// String returns a string representation of the card.
 func (c Card) String() string {
 	var str string
 	str += NumToCardChar(c.Val)

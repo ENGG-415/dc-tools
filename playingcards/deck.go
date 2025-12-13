@@ -11,7 +11,7 @@ type Deck struct {
 	Cards []Card
 }
 
-// [AddCard] adds a card to the top of the deck.
+// AddCard adds a card to the top of the deck.
 // Returns an error if the card has an invalid rank value.
 func (deck *Deck) AddCard(c Card) error {
 	if c.Val < 1 || c.Val > 13 {
@@ -21,13 +21,13 @@ func (deck *Deck) AddCard(c Card) error {
 	return nil
 }
 
-// [Reset] removes all cards from the deck.
+// Reset removes all cards from the deck.
 func (deck *Deck) Reset() error {
 	deck.Cards = nil
 	return nil
 }
 
-// [Create] initializes the deck with a complete standard deck of 52 cards.
+// Create initializes the deck with a complete standard deck of 52 cards.
 // Any existing cards are discarded.
 func (deck *Deck) Create() error {
 	deck.Cards = nil
@@ -40,7 +40,7 @@ func (deck *Deck) Create() error {
 	return nil
 }
 
-// [Shuffle] randomizes the order of cards in the deck
+// Shuffle randomizes the order of cards in the deck
 // See: https://stackoverflow.com/questions/12264789/shuffle-array-in-go
 // Note: As of Go 1.20, the random number generator does not need explicit seeding.
 func (deck *Deck) Shuffle() error {
@@ -53,12 +53,12 @@ func (deck *Deck) Shuffle() error {
 	return nil
 }
 
-// [NumCards] returns the number of cards currently in the deck.
+// NumCards returns the number of cards currently in the deck.
 func (deck Deck) NumCards() int {
 	return len(deck.Cards)
 }
 
-// [String] returns a string representation of the deck, with cards separated by spaces.
+// String returns a string representation of the deck, with cards separated by spaces.
 func (deck Deck) String() (s string) {
 	space := ""
 	for i := range deck.Cards {
@@ -68,7 +68,7 @@ func (deck Deck) String() (s string) {
 	return
 }
 
-// [TakeTopCard] removes and returns the top card from the deck.
+// TakeTopCard removes and returns the top card from the deck.
 func (deck *Deck) TakeTopCard() Card {
 	c := deck.Cards[0]
 	deck.Cards = deck.Cards[1:]
