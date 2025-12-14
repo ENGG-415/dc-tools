@@ -38,7 +38,7 @@ func Root(abspath string) error {
 	logfilename = filepath.Clean(logfilename)
 
 	// open the log file
-	// and defer its closing in case of panic,
+	// NOTE: caller must handle closing the log file with `defer logconfig.Logfid.Close()`
 	Logfid, err = os.OpenFile(logfilename, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
 	if err != nil {
 		log.Panicf("Could not create log file: %v\n", err)
